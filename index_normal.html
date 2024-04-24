@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<h1></h1>
+		<div class="info"></div>
+		<button onclick="refresh()">refresh</button>
+	</div>
+	<script src="data.js"></script>
+	<script>
+		function refresh() {
+			let CurrentTimeString=getCurrentTimeString()
+			document.querySelector("h1").innerHTML=CurrentTimeString
+			console.log(CurrentTimeString);
+			let current = bellSchedule.find(obj=>obj.from<CurrentTimeString && obj.to>=CurrentTimeString)
+			if(current){
+				document.querySelector(".info").innerHTML=`Most a(z) ${current.id}. óra van, és ${current.to}-ig tart`
+			}
+			else{
+				let next=bellSchedule.find(obj=>obj.from>CurrentTimeString)
+				if(next){
+					document.querySelector(".info").innerHTML=`Most szünet van és a(z) ${next.id}. óra következik, ${next.from}-tól/től`
+				}
+				else{
+					document.querySelector(".info").innerHTML=`nincs információ...`
+				}
+			}
+		}
+
+		function getCurrentTimeString(){
+			let now = new Date()
+			let h=now.getHours().toString().padStart(2,'0')
+			let m=now.getMinutes().toString().padStart(2,'0')
+			return h+':'+m
+
+		}
+	</script>
+</body>
+</html>

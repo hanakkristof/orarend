@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body{
+			background-color: rgba(232,247,249,255);
+		}
+		.container{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-wrap: wrap;
+			flex-direction: column;
+			border: 2px black solid;
+			height: 200px;
+			font-weight: bold;
+			background-color: rgba(111,130,166,255);
+			font-size: 25px;
+			max-width: 320px;
+			margin: 0 auto;
+			text-align: center;
+			border-radius: 10px;
+			height: 300px;
+		}
+		button{
+			padding: 5px;
+			margin: 10px;
+			color: rgba(96,196,210,255);
+			background-color	:  rgba(150,103,87,255);
+			width: 100px;
+			font-weight: bold;
+			font-size: 15px;
+			border-radius: 10px;
+			letter-spacing: 2px;
+		}
+		h1{
+			color: 
+			rgba(246,138,143,255);
+			-webkit-text-stroke-width: 1.5px;
+  		-webkit-text-stroke-color: black;
+			font-size: 35px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="radio">
+	<span>
+		<input type="radio" name="duration" id="h45" value="h45" checked>
+		<label for="">45'</label>
+	</span>
+	
+	<span>
+		<input type="radio" name="duration" id="h40" value="h40" >
+		<label for="">40'</label>
+	</span>
+	
+	<span>
+		<input type="radio" name="duration" id="h35" value="h35">
+		<label for="">35'</label>
+	</span>
+</div>
+		<h1></h1>
+		<div class="info"></div>
+		<button onclick="refresh()">Refresh</button>
+</div>
+	<script src="radiodata.js"></script>
+	<script>
+		function refresh() {
+			let selectedValue=document.querySelector('input[name="duration"]:checked').value
+			bellSchedule=bellShedules[selectedValue]
+			let CurrentTimeString=getCurrentTimeString()
+			document.querySelector("h1").innerHTML=CurrentTimeString
+			console.log(CurrentTimeString);
+			let current = bellSchedule.find(obj=>obj.from<CurrentTimeString && obj.to>=CurrentTimeString)
+			if(current){
+				document.querySelector(".info").innerHTML=`Most a(z) ${current.id}. óra van, és ${current.to}-ig tart`
+			}
+			else{
+				let next=bellSchedule.find(obj=>obj.from>CurrentTimeString)
+				if(next){
+					document.querySelector(".info").innerHTML=`Most szünet van és a(z) ${next.id}. óra következik, ${next.from}-tól/től`
+				}
+				else{
+					document.querySelector(".info").innerHTML=`nincs információ...`
+				}
+			}
+		}
+
+		function getCurrentTimeString(){
+			let now = new Date()
+			let h=now.getHours().toString().padStart(2,'0')
+			let m=now.getMinutes().toString().padStart(2,'0')
+			return h+':'+m
+
+		}
+	</script>
+</body>
+</html>
